@@ -1,0 +1,268 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Users & Skills ────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  password     String
+  college      String   @default("")
+  department   String   @default("")
+  year         String   @default("")
+  bio          String   @default("")
+  profileImage String?
+  role         String   @default("STUDENT") // STUDENT | ADMIN
+  status       String   @default("ACTIVE") // ACTIVE | SUSPENDED
+  xp           Int      @default(0)
+  rating       Float    @default(0)
+  reviewCount  Int      @default(0)
+  onboarded    Boolean  @default(false)
+  availability String   @default("[]") // JSON: [{day,from,to}]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  userSkills              UserSkill[]
+  connectionsSent         Connection[]              @relation("connectionSender")
+  connectionsReceived     Connection[]              @relation("connectionReceiver")
+  conversationMemberships ConversationParticipant[]
+  messagesSent            Message[]
+  sessionsTaught          LearningSession[]         @relation("sessionTeacher")
+  sessionsLearned         LearningSession[]         @relation("sessionLearner")
+  goals                   LearningGoal[]
+  reviewsWritten          Review[]                  @relation("reviewReviewer")
+  reviewsReceived         Review[]                  @relation("reviewReviewed")
+  notifications           Notification[]
+  userBadges              UserBadge[]
+  xpEvents                XpEvent[]
+  reportsMade             Report[]                  @relation("reportReporter")
+  reportsAgainst          Report[]                  @relation("reportReported")
+  savedUsers              SavedUser[]               @relation("savedByUser")
+  savedBy                 SavedUser[]               @relation("savedUser")
+  announcements           Announcement[]
+}
+
+model SkillCategory {
+  id        String  @id @default(cuid())
+  name      String  @unique
+  sortOrder Int     @default(0)
+  skills    Skill[]
+}
+
+model Skill {
+  id         String        @id @default(cuid())
+  name       String
+  categoryId String
+  category   SkillCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  userSkills UserSkill[]
+  goals      LearningGoal[]
+
+  @@unique([categoryId, name])
+}
+
+model UserSkill {
+  id      String @id @default(cuid())
+  userId  String
+  skillId String
+  type    String // TEACH | LEARN
+  level   String // learn: BEGINNER | INTERMEDIATE | ADVANCED ; teach: INTERMEDIATE | ADVANCED | EXPERT
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skill Skill @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, skillId, type])
+}
+
+// ─── Connections & Messaging ───────────────────────────────────────
+
+model Connection {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  status     String   @default("PENDING") // PENDING | ACCEPTED | REJECTED | CANCELLED
+  message    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  sender   User @relation("connectionSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("connectionReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+}
+
+model Conversation {
+  id           String                    @id @default(cuid())
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+  participants ConversationParticipant[]
+  messages     Message[]
+}
+
+model ConversationParticipant {
+  id             String      @id @default(cuid())
+  conversationId String
+  userId         String
+  lastReadAt     DateTime?
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, userId])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  senderId       String
+  content        String
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+// ─── Learning ──────────────────────────────────────────────────────
+
+model LearningSession {
+  id          String  @id @default(cuid())
+  topic       String
+  description String  @default("")
+  teacherId   String
+  learnerId   String
+  date        String // ISO date string
+  time        String // HH:mm
+  duration    Int     @default(60) // minutes
+  mode        String  @default("ONLINE") // ONLINE | IN_PERSON
+  location    String  @default("")
+  meetingLink String  @default("")
+  notes       String  @default("")
+  status      String  @default("UPCOMING") // UPCOMING | COMPLETED | CANCELLED
+  createdAt   DateTime @default(now())
+
+  teacher User     @relation("sessionTeacher", fields: [teacherId], references: [id], onDelete: Cascade)
+  learner User     @relation("sessionLearner", fields: [learnerId], references: [id], onDelete: Cascade)
+  reviews Review[]
+}
+
+model LearningGoal {
+  id        String     @id @default(cuid())
+  userId    String
+  title     String
+  skillId   String?
+  skill     Skill?     @relation(fields: [skillId], references: [id], onDelete: SetNull)
+  createdAt DateTime   @default(now())
+  tasks     GoalTask[]
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model GoalTask {
+  id     String @id @default(cuid())
+  goalId String
+  title  String
+  done   Boolean @default(false)
+  order  Int     @default(0)
+  goal   LearningGoal @relation(fields: [goalId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id             String   @id @default(cuid())
+  sessionId      String
+  reviewerId     String
+  reviewedUserId String
+  rating         Int
+  comment        String   @default("")
+  createdAt      DateTime @default(now())
+
+  session      LearningSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  reviewer     User            @relation("reviewReviewer", fields: [reviewerId], references: [id], onDelete: Cascade)
+  reviewedUser User            @relation("reviewReviewed", fields: [reviewedUserId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, reviewerId])
+}
+
+// ─── Engagement ────────────────────────────────────────────────────
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String // CONNECTION_REQUEST | CONNECTION_ACCEPTED | NEW_MESSAGE | SESSION | REVIEW | BADGE | ANNOUNCEMENT | SYSTEM
+  title     String
+  body      String   @default("")
+  refId     String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Badge {
+  id          String @id @default(cuid())
+  code        String @unique
+  name        String
+  description String
+  emoji       String
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  id         String   @id @default(cuid())
+  userId     String
+  badgeId    String
+  unlockedAt DateTime @default(now())
+  user       User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge      Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+}
+
+model XpEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  code      String // unique per user to prevent duplicate XP
+  xp        Int
+  reason    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, code])
+}
+
+// ─── Moderation & Admin ────────────────────────────────────────────
+
+model Report {
+  id              String   @id @default(cuid())
+  reporterId      String
+  reportedUserId  String
+  reason          String // Spam | Fake profile | Inappropriate content | Harassment | Other
+  description     String   @default("")
+  status          String   @default("OPEN") // OPEN | INVESTIGATING | RESOLVED | REJECTED
+  adminNotes      String   @default("")
+  createdAt       DateTime @default(now())
+
+  reporter     User @relation("reportReporter", fields: [reporterId], references: [id], onDelete: Cascade)
+  reportedUser User @relation("reportReported", fields: [reportedUserId], references: [id], onDelete: Cascade)
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  authorId  String
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model SavedUser {
+  id          String   @id @default(cuid())
+  userId      String
+  savedUserId String
+  createdAt   DateTime @default(now())
+  user        User @relation("savedByUser", fields: [userId], references: [id], onDelete: Cascade)
+  savedUser   User @relation("savedUser", fields: [savedUserId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, savedUserId])
+}

@@ -1,0 +1,444 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MONO GLASS — Design System
+   Black is the canvas. Glass is the structure. White is the information.
+   Dark mode is the primary experience. Light mode is frosted white glass.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --radius: 1.125rem;
+
+  /* ── Mono Glass core tokens (dark = primary) ── */
+  --mg-bg: #050505;
+  --mg-surface: #0d0d0d;
+  --mg-elevated: #141414;
+  --mg-glass: rgba(255, 255, 255, 0.06);
+  --mg-glass-card: rgba(255, 255, 255, 0.08);
+  --mg-glass-strong: rgba(255, 255, 255, 0.1);
+  --mg-border: rgba(255, 255, 255, 0.14);
+  --mg-border-strong: rgba(255, 255, 255, 0.24);
+  --mg-text: #ffffff;
+  --mg-text-secondary: #a6a6a6;
+  --mg-text-muted: #6f6f6f;
+  --mg-light-accent: #f5f5f5;
+  --mg-blur: 24px;
+  --mg-blur-strong: 32px;
+  --mg-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  --mg-shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.35);
+  --mg-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  --mg-speed: 240ms;
+
+  /* ── shadcn/ui variable mapping (Mono Glass dark) ── */
+  --background: var(--mg-bg);
+  --foreground: #ffffff;
+  --card: rgba(255, 255, 255, 0.04);
+  --card-foreground: #ffffff;
+  --popover: #101010;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #050505;
+  --secondary: rgba(255, 255, 255, 0.08);
+  --secondary-foreground: #ffffff;
+  --muted: rgba(255, 255, 255, 0.06);
+  --muted-foreground: #a6a6a6;
+  --accent: rgba(255, 255, 255, 0.1);
+  --accent-foreground: #ffffff;
+  --destructive: #e5484d;
+  --border: var(--mg-border);
+  --input: var(--mg-border);
+  --ring: rgba(255, 255, 255, 0.55);
+  --chart-1: #ffffff;
+  --chart-2: #bdbdbd;
+  --chart-3: #8a8a8a;
+  --chart-4: #565656;
+  --chart-5: #333333;
+  --sidebar: rgba(255, 255, 255, 0.03);
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #050505;
+  --sidebar-accent: rgba(255, 255, 255, 0.1);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.14);
+  --sidebar-ring: rgba(255, 255, 255, 0.55);
+
+  color-scheme: dark;
+}
+
+/* ── Mono Glass Light — frosted white glass (designed intentionally) ── */
+.light {
+  --mg-surface: #ebebeb;
+  --mg-elevated: #ffffff;
+  --mg-glass: rgba(255, 255, 255, 0.55);
+  --mg-glass-card: rgba(255, 255, 255, 0.68);
+  --mg-glass-strong: rgba(255, 255, 255, 0.82);
+  --mg-border: rgba(10, 10, 10, 0.09);
+  --mg-border-strong: rgba(10, 10, 10, 0.18);
+  --mg-text: #0a0a0a;
+  --mg-text-secondary: #5f5f5f;
+  --mg-text-muted: #8f8f8f;
+  --mg-shadow: 0 10px 40px rgba(20, 20, 20, 0.1);
+  --mg-shadow-soft: 0 4px 24px rgba(20, 20, 20, 0.07);
+  --mg-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  --background: #f5f5f5;
+  --foreground: #0a0a0a;
+  --card: rgba(255, 255, 255, 0.72);
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #0a0a0a;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(10, 10, 10, 0.05);
+  --secondary-foreground: #0a0a0a;
+  --muted: rgba(10, 10, 10, 0.045);
+  --muted-foreground: #5f5f5f;
+  --accent: rgba(10, 10, 10, 0.07);
+  --accent-foreground: #0a0a0a;
+  --destructive: #d33d43;
+  --border: rgba(10, 10, 10, 0.1);
+  --input: rgba(10, 10, 10, 0.12);
+  --ring: rgba(10, 10, 10, 0.45);
+  --chart-1: #0a0a0a;
+  --chart-2: #4a4a4a;
+  --chart-3: #7a7a7a;
+  --chart-4: #a8a8a8;
+  --chart-5: #d4d4d4;
+  --sidebar: rgba(255, 255, 255, 0.6);
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #0a0a0a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: rgba(10, 10, 10, 0.06);
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: rgba(10, 10, 10, 0.09);
+  --sidebar-ring: rgba(10, 10, 10, 0.45);
+
+  color-scheme: light;
+}
+
+/* Keep legacy `.dark` selector identical to :root (dark is primary) */
+.dark {
+  --mg-surface: #0d0d0d;
+  --mg-elevated: #141414;
+  --mg-glass: rgba(255, 255, 255, 0.06);
+  --mg-glass-card: rgba(255, 255, 255, 0.08);
+  --mg-glass-strong: rgba(255, 255, 255, 0.1);
+  --mg-border: rgba(255, 255, 255, 0.14);
+  --mg-border-strong: rgba(255, 255, 255, 0.24);
+  --mg-text: #ffffff;
+  --mg-text-secondary: #a6a6a6;
+  --mg-text-muted: #6f6f6f;
+  --mg-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  --mg-shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.35);
+  --mg-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  color-scheme: dark;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Mono Glass LIGHT remap — raw white-alpha utilities become black-alpha
+   so glass chips/pills/rows keep their structure on frosted surfaces.
+   Unlayered rules intentionally override Tailwind's layered utilities.
+   ───────────────────────────────────────────────────────────────────── */
+.light .bg-white\/\[0\.02\] { background-color: rgba(10, 10, 10, 0.016); }
+.light .bg-white\/\[0\.03\] { background-color: rgba(10, 10, 10, 0.022); }
+.light .bg-white\/\[0\.04\] { background-color: rgba(10, 10, 10, 0.03); }
+.light .bg-white\/\[0\.05\] { background-color: rgba(10, 10, 10, 0.036); }
+.light .bg-white\/\[0\.06\] { background-color: rgba(10, 10, 10, 0.045); }
+.light .bg-white\/\[0\.07\] { background-color: rgba(10, 10, 10, 0.052); }
+.light .bg-white\/\[0\.08\] { background-color: rgba(10, 10, 10, 0.058); }
+.light .bg-white\/\[0\.09\] { background-color: rgba(10, 10, 10, 0.064); }
+.light .bg-white\/\[0\.1\] { background-color: rgba(10, 10, 10, 0.07); }
+.light .bg-white\/\[0\.12\] { background-color: rgba(10, 10, 10, 0.085); }
+.light .bg-white\/\[0\.13\] { background-color: rgba(10, 10, 10, 0.092); }
+.light .bg-white\/\[0\.16\] { background-color: rgba(10, 10, 10, 0.11); }
+.light .bg-white\/10 { background-color: rgba(10, 10, 10, 0.07); }
+.light .bg-white\/25 { background-color: rgba(10, 10, 10, 0.18); }
+.light .border-white\/\[0\.08\] { border-color: rgba(10, 10, 10, 0.06); }
+.light .border-white\/\[0\.1\] { border-color: rgba(10, 10, 10, 0.08); }
+.light .border-white\/\[0\.12\] { border-color: rgba(10, 10, 10, 0.1); }
+.light .border-white\/\[0\.14\] { border-color: rgba(10, 10, 10, 0.12); }
+.light .border-white\/\[0\.16\] { border-color: rgba(10, 10, 10, 0.13); }
+.light .border-white\/\[0\.18\] { border-color: rgba(10, 10, 10, 0.15); }
+.light .border-white\/\[0\.2\] { border-color: rgba(10, 10, 10, 0.17); }
+.light .border-white\/\[0\.22\] { border-color: rgba(10, 10, 10, 0.18); }
+.light .border-white\/\[0\.24\] { border-color: rgba(10, 10, 10, 0.2); }
+.light .border-white\/\[0\.3\] { border-color: rgba(10, 10, 10, 0.26); }
+.light .ring-white\/20 { --tw-ring-color: rgba(10, 10, 10, 0.16); }
+.light .stroke-white\/12 { stroke: rgba(10, 10, 10, 0.14); }
+.light .hover\:bg-white\/\[0\.06\]:hover { background-color: rgba(10, 10, 10, 0.045); }
+.light .hover\:bg-white\/\[0\.08\]:hover { background-color: rgba(10, 10, 10, 0.058); }
+.light .hover\:bg-white\/\[0\.09\]:hover { background-color: rgba(10, 10, 10, 0.064); }
+.light .hover\:bg-white\/\[0\.12\]:hover { background-color: rgba(10, 10, 10, 0.085); }
+.light .hover\:bg-white\/\[0\.16\]:hover { background-color: rgba(10, 10, 10, 0.11); }
+.light .hover\:border-white\/\[0\.18\]:hover { border-color: rgba(10, 10, 10, 0.15); }
+.light .hover\:border-white\/\[0\.24\]:hover { border-color: rgba(10, 10, 10, 0.2); }
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01" on;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    background: rgba(255, 255, 255, 0.92);
+    color: #050505;
+  }
+  .light ::selection {
+    background: rgba(10, 10, 10, 0.9);
+    color: #ffffff;
+  }
+  /* Muted semantic states only when necessary */
+  .text-success {
+    color: #7fbf8e;
+  }
+  .light .text-success {
+    color: #3d7a4e;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* ── Ambient canvas: charcoal gradients + blurred white light + noise ── */
+  .lf-ambient {
+    position: relative;
+    isolation: isolate;
+    background: var(--background);
+  }
+  .lf-ambient::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(42rem 42rem at 10% -12%, rgba(255, 255, 255, 0.055), transparent 62%),
+      radial-gradient(36rem 36rem at 104% 14%, rgba(255, 255, 255, 0.04), transparent 60%),
+      radial-gradient(50rem 50rem at 50% 122%, rgba(255, 255, 255, 0.035), transparent 62%),
+      linear-gradient(180deg, #0a0a0a 0%, #050505 40%, #070707 100%);
+    pointer-events: none;
+  }
+  .lf-ambient::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .light .lf-ambient::before {
+    background:
+      radial-gradient(42rem 42rem at 10% -12%, rgba(255, 255, 255, 0.9), transparent 62%),
+      radial-gradient(36rem 36rem at 104% 14%, rgba(255, 255, 255, 0.7), transparent 60%),
+      radial-gradient(50rem 50rem at 50% 122%, rgba(10, 10, 10, 0.045), transparent 62%),
+      linear-gradient(180deg, #fafafa 0%, #f5f5f5 40%, #f0f0f0 100%);
+  }
+  .light .lf-ambient::after {
+    opacity: 0.03;
+  }
+
+  /* ── Glass surfaces ── */
+  .lf-glass {
+    background: var(--mg-glass);
+    backdrop-filter: blur(var(--mg-blur)) saturate(1.1);
+    -webkit-backdrop-filter: blur(var(--mg-blur)) saturate(1.1);
+    border: 1px solid var(--mg-border);
+    box-shadow: var(--mg-shadow-soft), var(--mg-inner-highlight);
+  }
+  .lf-glass-strong {
+    background: var(--mg-glass-strong);
+    backdrop-filter: blur(var(--mg-blur-strong)) saturate(1.15);
+    -webkit-backdrop-filter: blur(var(--mg-blur-strong)) saturate(1.15);
+    border: 1px solid var(--mg-border);
+    box-shadow: var(--mg-shadow), var(--mg-inner-highlight);
+  }
+  /* Flat surface for text-heavy sections, tables, forms */
+  .lf-surface {
+    background: var(--mg-surface);
+    border: 1px solid var(--mg-border);
+  }
+
+  /* ── Floating card behaviour ── */
+  .lf-hover-lift {
+    transition:
+      transform var(--mg-speed) cubic-bezier(0.22, 1, 0.36, 1),
+      background-color var(--mg-speed) ease,
+      border-color var(--mg-speed) ease,
+      box-shadow var(--mg-speed) ease,
+      filter var(--mg-speed) ease;
+  }
+  .lf-hover-lift:hover {
+    transform: translateY(-3px);
+    border-color: var(--mg-border-strong);
+    box-shadow: var(--mg-shadow), var(--mg-inner-highlight);
+  }
+  .dark .lf-hover-lift:hover,
+  :root:not(.light) .lf-hover-lift:hover {
+    filter: brightness(1.06);
+  }
+
+  /* ── Brand (monochrome) ── */
+  .lf-logo {
+    background: linear-gradient(145deg, #ffffff, #dcdcdc);
+    box-shadow:
+      0 2px 12px rgba(255, 255, 255, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+  .light .lf-logo {
+    background: linear-gradient(145deg, #1c1c1c, #000000);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  }
+  .lf-brand-gradient {
+    background-image: linear-gradient(135deg, #ffffff 0%, #d6d6d6 55%, #9a9a9a 100%);
+  }
+  .lf-brand-text {
+    background-image: linear-gradient(120deg, #ffffff 10%, #cfcfcf 55%, #8f8f8f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .light .lf-brand-text {
+    background-image: linear-gradient(120deg, #0a0a0a 10%, #3d3d3d 60%, #6f6f6f 100%);
+  }
+
+  /* ── Typography scale ── */
+  .lf-h1 {
+    font-size: clamp(2rem, 2.2vw + 1.2rem, 3rem);
+    line-height: 1.12;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .lf-h2 {
+    font-size: clamp(1.5rem, 1.4vw + 0.9rem, 2.25rem);
+    line-height: 1.18;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .lf-h3 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Subtle grid texture ── */
+  .lf-grid-texture {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+  }
+  .light .lf-grid-texture {
+    background-image:
+      linear-gradient(to right, rgba(10, 10, 10, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10, 10, 10, 0.04) 1px, transparent 1px);
+  }
+
+  /* ── Monochrome scrollbars ── */
+  .lf-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  }
+  .lf-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .lf-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+  }
+  .lf-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .light .lf-scroll {
+    scrollbar-color: rgba(10, 10, 10, 0.2) transparent;
+  }
+  .light .lf-scroll::-webkit-scrollbar-thumb {
+    background: rgba(10, 10, 10, 0.2);
+  }
+
+  .lf-float {
+    animation: lf-float 7s ease-in-out infinite;
+  }
+  @keyframes lf-float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-1deg);
+    }
+    50% {
+      transform: translateY(-14px) rotate(1.5deg);
+    }
+  }
+
+  /* Elegant radial reveal for badge unlock */
+  .lf-radial-glow {
+    animation: lf-radial-glow 900ms ease-out forwards;
+  }
+  @keyframes lf-radial-glow {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.35);
+    }
+    100% {
+      box-shadow: 0 0 0 18px rgba(255, 255, 255, 0);
+    }
+  }
+}
