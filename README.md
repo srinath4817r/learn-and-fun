@@ -54,4 +54,6 @@ AUTH_SECRET=your_secret_here
 
 ## License
 
-MIT
+ and its published  link is :-https://learnfun.space-z.ai
+
+ 
